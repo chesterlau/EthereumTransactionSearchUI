@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import moment from 'moment';
 import TransactionResult from '../TransactionResult/TransactionResult';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 
@@ -42,7 +43,7 @@ const TransactionSearch = props => {
         //   props.onAddTransaction(item);  
         // })
 
-        props.onAddHistory({...payload, timestamp: Date.now()});
+        props.onAddHistory({...payload, timestamp: moment().format("YYYY-MM-DD HH:mm:ss")});
         changeShowLoader(false);
       })
       .catch(ex => {
