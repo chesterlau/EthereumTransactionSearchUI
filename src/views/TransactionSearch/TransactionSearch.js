@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import TransactionResult from '../TransactionResult/TransactionResult';
+import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 
-const TransactionSearch = () => {
+const TransactionSearch = props => {
 
   const [blockNumber, changeBlockNumber] = useState();
   const [address, changeAddress] = useState("");
@@ -13,7 +16,7 @@ const TransactionSearch = () => {
   }
 
   const handleAddressTextChange = (event) => {
-    changeAddress(event.target.value);
+    changeAddress(event.target.value); 
   }
 
   const handleSubmit = event => {
@@ -35,6 +38,11 @@ const TransactionSearch = () => {
     axios.post(`http://localhost:5000/api/search/Transactions`, payload, { headers: headers })
       .then(res => {
         console.log(res.data.transactions);
+        // res.data.transactions.map((item, index) => {
+        //   props.onAddTransaction(item);  
+        // })
+
+        props.onAddHistory({...payload, timestamp: Date.now()});
         changeShowLoader(false);
       })
       .catch(ex => {
@@ -67,9 +75,27 @@ const TransactionSearch = () => {
           </form>
         </div>
       </div>
+      <br />
+      <div className="row">
+        <div className="col-md">
+          <TransactionResult />
+        </div>
+      </div>
+
     </div>
   );
-
 }
 
-export default TransactionSearch;
+const mapStateToProps = state => {
+  return {
+    transactionSearchHistories: state.TransactionSearchHistoryReducer.transactionSearchHistories
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddHistory: (value) => dispatch(addHistory(value))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionSearch);
