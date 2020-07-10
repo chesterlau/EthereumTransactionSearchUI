@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import TransactionResult from '../TransactionResult/TransactionResult';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 import 'react-toastify/dist/ReactToastify.css';
+import './TransactionSearch.css';
 
 const TransactionSearch = props => {
 
@@ -77,12 +78,12 @@ const TransactionSearch = props => {
             <div className="form-group">
               <label htmlFor="blockNumberInput">Block number</label>
               <input type="text" className="form-control" id="blockNumberInput" name="blockNumber" placeholder="eg. 9148873" onChange={handleBlockNumberTextChange} ref={register({ required: true })} />
-              {errors.blockNumber && <span style={{ color: "red" }}>This field is required</span>}
+              {errors.blockNumber && <span className="error-text">This field is required</span>}
             </div>
             <div className="form-group">
               <label htmlFor="addressInput">Address</label>
               <input type="text" className="form-control" id="addressInput" name="address" placeholder="eg. 0xd409545096fFE4A4dB43875a9b32d766C6364C66" onChange={handleAddressTextChange} ref={register({ required: true })} />
-              {errors.address && <span style={{ color: "red" }}>This field is required</span>}
+              {errors.address && <span className="error-text">This field is required</span>}
             </div>
             <button type="submit" className="btn btn-primary">Search</button>
           </form>
