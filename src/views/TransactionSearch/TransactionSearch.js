@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import moment from 'moment';
 import Loader from 'react-loader-spinner';
+import { ToastContainer, toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 import TransactionResult from '../TransactionResult/TransactionResult';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TransactionSearch = props => {
 
@@ -51,7 +53,10 @@ const TransactionSearch = props => {
         changeShowLoader(false);
       })
       .catch(ex => {
-        console.log(ex.response);
+        console.log(ex.response.data);
+        toast.error(ex.response.data.title, {
+          position: toast.POSITION.TOP_CENTER
+        });
         changeShowLoader(false);
       });
   }
@@ -62,6 +67,7 @@ const TransactionSearch = props => {
         <div className="col-md">
           <h4>Ethereum Transaction Search</h4>
           <hr />
+          <ToastContainer autoClose={3000}/>
         </div>
       </div>
       <br />
