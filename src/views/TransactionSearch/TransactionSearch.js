@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import moment from 'moment';
+import Loader from 'react-loader-spinner';
 import { useForm } from "react-hook-form";
 import TransactionResult from '../TransactionResult/TransactionResult';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
@@ -10,7 +11,6 @@ import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 const TransactionSearch = props => {
 
   const { register, handleSubmit, watch, errors } = useForm();
-
   const [blockNumber, changeBlockNumber] = useState("");
   const [address, changeAddress] = useState("");
   const [transactionResults, setTransactionResults] = useState([]);
@@ -80,12 +80,22 @@ const TransactionSearch = props => {
             </div>
             <button type="submit" className="btn btn-primary">Search</button>
           </form>
+          <br />
         </div>
       </div>
       <br />
       <div className="row">
         <div className="col-md">
-          <TransactionResult transactionResults={transactionResults} />
+          {
+            showLoader ? (<Loader
+              type="Puff"
+              color="#00BFFF"
+              visible={showLoader}
+              height={30}
+              width={30}
+              timeout={0} //3 secs
+            />) : (<TransactionResult transactionResults={transactionResults} />)
+          }
         </div>
       </div>
     </div>
