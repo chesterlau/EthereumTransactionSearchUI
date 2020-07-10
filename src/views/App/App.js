@@ -4,7 +4,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <div className="container" style={{ marginTop: "2%" }}>
+    <div className="container" style={{ maxWidth: "80%", marginTop: "2%" }}>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

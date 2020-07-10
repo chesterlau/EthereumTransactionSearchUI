@@ -10,6 +10,7 @@ const TransactionSearch = props => {
 
   const [blockNumber, changeBlockNumber] = useState();
   const [address, changeAddress] = useState("");
+  const [transactionResults, setTransactionResults] = useState([]);
   const [showLoader, changeShowLoader] = useState(false);
 
   const handleBlockNumberTextChange = (event) => {
@@ -39,6 +40,7 @@ const TransactionSearch = props => {
     axios.post(`http://localhost:5000/api/search/Transactions`, payload, { headers: headers })
       .then(res => {
         console.log(res.data.transactions);
+        setTransactionResults(res.data.transactions);
         // res.data.transactions.map((item, index) => {
         //   props.onAddTransaction(item);  
         // })
@@ -79,7 +81,7 @@ const TransactionSearch = props => {
       <br />
       <div className="row">
         <div className="col-md">
-          <TransactionResult />
+          <TransactionResult transactionResults={transactionResults} />
         </div>
       </div>
 
