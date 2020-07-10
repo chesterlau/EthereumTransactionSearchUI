@@ -51,7 +51,7 @@ const TransactionSearch = props => {
         changeShowLoader(false);
       })
       .catch(ex => {
-        console.log(ex);
+        console.log(ex.response);
         changeShowLoader(false);
       });
   }
@@ -70,12 +70,12 @@ const TransactionSearch = props => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label htmlFor="blockNumberInput">Block number</label>
-              <input type="text" className="form-control" id="blockNumberInput" name="blockNumber" placeholder="Enter block number" onChange={handleBlockNumberTextChange} ref={register({ required: true })} />
+              <input type="text" className="form-control" id="blockNumberInput" name="blockNumber" placeholder="eg. 9148873" onChange={handleBlockNumberTextChange} ref={register({ required: true })} />
               {errors.blockNumber && <span style={{ color: "red" }}>This field is required</span>}
             </div>
             <div className="form-group">
               <label htmlFor="addressInput">Address</label>
-              <input type="text" className="form-control" id="addressInput" name="address" placeholder="Enter address" onChange={handleAddressTextChange} ref={register({ required: true })} />
+              <input type="text" className="form-control" id="addressInput" name="address" placeholder="eg. 0xd409545096fFE4A4dB43875a9b32d766C6364C66" onChange={handleAddressTextChange} ref={register({ required: true })} />
               {errors.address && <span style={{ color: "red" }}>This field is required</span>}
             </div>
             <button type="submit" className="btn btn-primary">Search</button>
