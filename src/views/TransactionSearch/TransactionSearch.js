@@ -7,6 +7,7 @@ import Loader from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 import TransactionResult from '../TransactionResult/TransactionResult';
+import TransactionSearchHistory from '../TransactionSearchHistory/TransactionSearchHistory';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 import 'react-toastify/dist/ReactToastify.css';
 import './TransactionSearch.css';
@@ -101,7 +102,7 @@ const TransactionSearch = props => {
               height={30}
               width={30}
               timeout={0} //3 secs
-            />) : (<TransactionResult transactionResults={transactionResults} />)
+            />) : (<div><TransactionResult transactionResults={transactionResults} /> <br /> <TransactionSearchHistory/></div>)
           }
         </div>
       </div>
