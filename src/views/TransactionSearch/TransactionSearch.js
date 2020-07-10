@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import moment from 'moment';
+import { useForm } from "react-hook-form";
 import TransactionResult from '../TransactionResult/TransactionResult';
 import { addHistory } from '../../redux/Actions/TransactionSearchHistory';
 
 const TransactionSearch = props => {
 
-  const [blockNumber, changeBlockNumber] = useState();
+  const { register, handleSubmit, watch, errors } = useForm();
+
+  const [blockNumber, changeBlockNumber] = useState("");
   const [address, changeAddress] = useState("");
   const [transactionResults, setTransactionResults] = useState([]);
   const [showLoader, changeShowLoader] = useState(false);
@@ -18,12 +21,11 @@ const TransactionSearch = props => {
   }
 
   const handleAddressTextChange = (event) => {
-    changeAddress(event.target.value); 
+    changeAddress(event.target.value);
   }
 
-  const handleSubmit = event => {
-    event.preventDefault();
-
+  const onSubmit = event => {
+    
     changeShowLoader(true);
 
     const xtraceId = uuidv4();
@@ -32,7 +34,7 @@ const TransactionSearch = props => {
       "X-trace-ID": xtraceId
     };
 
-    let payload = {
+    const payload = {
       "blockNumber": parseInt(blockNumber),
       "address": address
     }
@@ -45,7 +47,7 @@ const TransactionSearch = props => {
         //   props.onAddTransaction(item);  
         // })
 
-        props.onAddHistory({...payload, timestamp: moment().format("YYYY-MM-DD HH:mm:ss")});
+        props.onAddHistory({ ...payload, timestamp: moment().format("YYYY-MM-DD HH:mm:ss") });
         changeShowLoader(false);
       })
       .catch(ex => {
@@ -65,14 +67,16 @@ const TransactionSearch = props => {
       <br />
       <div className="row">
         <div className="col-md">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label htmlFor="blockNumberInput">Block number</label>
-              <input type="text" className="form-control" id="blockNumberInput" placeholder="Enter block number" onChange={handleBlockNumberTextChange} />
+              <input type="text" className="form-control" id="blockNumberInput" name="blockNumber" placeholder="Enter block number" onChange={handleBlockNumberTextChange} ref={register({ required: true })} />
+              {errors.blockNumber && <span style={{ color: "red" }}>This field is required</span>}
             </div>
             <div className="form-group">
               <label htmlFor="addressInput">Address</label>
-              <input type="text" className="form-control" id="addressInput" placeholder="Enter address" onChange={handleAddressTextChange} />
+              <input type="text" className="form-control" id="addressInput" name="address" placeholder="Enter address" onChange={handleAddressTextChange} ref={register({ required: true })} />
+              {errors.address && <span style={{ color: "red" }}>This field is required</span>}
             </div>
             <button type="submit" className="btn btn-primary">Search</button>
           </form>
@@ -84,7 +88,6 @@ const TransactionSearch = props => {
           <TransactionResult transactionResults={transactionResults} />
         </div>
       </div>
-
     </div>
   );
 }
