@@ -45,17 +45,11 @@ const TransactionSearch = props => {
 
     axios.post(`http://localhost:5000/api/search/Transactions`, payload, { headers: headers })
       .then(res => {
-        console.log(res.data.transactions);
         setTransactionResults(res.data.transactions);
-        // res.data.transactions.map((item, index) => {
-        //   props.onAddTransaction(item);  
-        // })
-
         props.onAddHistory({ ...payload, timestamp: moment().format("YYYY-MM-DD HH:mm:ss") });
         changeShowLoader(false);
       })
       .catch(ex => {
-        console.log(ex.response.data);
         toast.error(ex.response.data.title, {
           position: toast.POSITION.TOP_CENTER
         });
@@ -101,7 +95,7 @@ const TransactionSearch = props => {
               visible={showLoader}
               height={30}
               width={30}
-              timeout={0} //3 secs
+              timeout={0}
             />) : (<div><TransactionResult transactionResults={transactionResults} /> <br /> <TransactionSearchHistory/></div>)
           }
         </div>
